@@ -12,7 +12,7 @@ import java.util.Set;
 @Data
 @Builder
 @ToString
-public class PersonTest {
+public class PersonTest extends Human{
     private String name;
     private Integer age;
     private Date birthDate;
@@ -24,4 +24,5 @@ public class PersonTest {
     private List<String> hobbies;
     private Set<Double> marks;
     private Map<String, Integer> course;
+    private Address address;
 }

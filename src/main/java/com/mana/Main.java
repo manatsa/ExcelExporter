@@ -25,6 +25,7 @@ public class Main {
                 .hobbies(List.of("Singing", "Walking", "Programming"))
                 .course(Map.of("Maths",2010,"Comp Science",2012))
                 .age(38)
+                .address(Address.builder().street("735 Olive Street").city("Sunway City").country("Zimbabwe").build())
                 .build();
         PersonTest grace= PersonTest
                 .builder()
@@ -39,6 +40,7 @@ public class Main {
                 .hobbies(List.of("Working", "Telling Stories", "Relaxing"))
                 .course(Map.of("Divorce",2023,"Abuse",2024))
                 .age(30)
+                .address(Address.builder().street("735 Olive Street").city("Sunway City").country("Zimbabwe").build())
                 .build();
         List<PersonTest> personTestList=List.of(mana,grace);
         FileOutputStream fileOutputStream=new FileOutputStream(new File("TestExcel.xlsx"));
