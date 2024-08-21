@@ -11,7 +11,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        ExcelExporter exporter=new ExcelExporter();
+        var exporter=new ExcelExporter();
         PersonTest mana=PersonTest
                 .builder()
                 .name("Manatsa")

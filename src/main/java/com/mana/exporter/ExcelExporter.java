@@ -1,5 +1,7 @@
 package com.mana.exporter;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -12,8 +14,10 @@ import java.util.stream.Collectors;
 
 public class ExcelExporter<T> {
 
+    private static final Logger LOG = LogManager.getLogger(ExcelExporter.class);
     public void exportToExcel(List<T> objects, OutputStream outputStream, XSSFWorkbook workbook) throws Exception {
 
+        LOG.info("\n\n*************** Initializing Excel Exporter ******************************\n\n");
         /**
          * get class name as object type
          */
@@ -44,6 +48,7 @@ public class ExcelExporter<T> {
         XSSFRow headerRow=sheet.createRow(0);
 
 
+        LOG.info("\n************* Writing Excel Headers ***********\n");
         /**
          * Create headers on the Excel sheet
          */
@@ -52,6 +57,7 @@ public class ExcelExporter<T> {
             cell.setCellValue(headers.get(i));
         }
 
+        LOG.info("\n*********** writing data rows ***************\n");
 
         /**
          * Loop through the list and get values
@@ -65,7 +71,6 @@ public class ExcelExporter<T> {
             XSSFRow row=sheet.createRow(++rowNum);
             for (int i=0; i<fields.size();i++) {
                 fields.get(i).setAccessible(true);
-                System.err.println("NAME::"+fields.get(i).getName()+"\tVALUE::"+fields.get(i).get(object)+"\t TYPE::"+fields.get(i).getType().getSimpleName());
                 XSSFCell cell=row.createCell(i);
                 if(fields.get(i).getType()==String.class){
                     cell.setCellValue(fields.get(i).get(object).toString());
@@ -98,6 +103,8 @@ public class ExcelExporter<T> {
 
         }
 
+        LOG.info("\n************* Done creating the in-memory workbook ***********\n");
+        LOG.info("\n************* Now, writing workbook to outputStream ***********\n");
         /**
          * write workbook to output stream
          */
@@ -108,6 +115,8 @@ public class ExcelExporter<T> {
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        LOG.info("\n************* ExcelExporter is done ***********\n");
     }
 
 
@@ -125,6 +134,6 @@ public class ExcelExporter<T> {
      */
     private String flattenMap(Map<Object,Object> list){
         Set<Object> set=list.keySet();
-        return "["+set.stream().map(item->"{"+item.toString()+","+list.get(item).toString()+"} ").collect(Collectors.joining(","))+"]";
+        return "["+set.stream().map(item->"{"+item.toString()+" : "+list.get(item).toString()+"} ").collect(Collectors.joining(","))+"]";
     }
 }
